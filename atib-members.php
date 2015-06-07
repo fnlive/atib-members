@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /*
 Plugin Name: ATIB Members
 Plugin URI:  https://github.com/fnlive/ATIB-Shortcodes
