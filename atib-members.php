@@ -201,6 +201,19 @@ function atib_slakt_handelse_cpt() {
 add_action( 'init', 'atib_slakt_handelse_cpt', 0 );
 
 
+function atib_members_prefix_install() {
+ 
+    // Trigger our function that registers the custom post type
+    atib_slakt_handelse_cpt();
+ 
+    // Clear the permalinks after the post type has been registered
+    flush_rewrite_rules();
+ 
+}
+register_activation_hook( __FILE__, 'atib_members_prefix_install' );
+
+
+
 // Register Custom Taxonomy
 function atib_slakt_gren_taxonomy() {
 
