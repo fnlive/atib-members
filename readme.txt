@@ -1,5 +1,5 @@
-Plugin ATIB-Shortcodes
-=== ATIB-Shortcodes ===
+Plugin ATIB-Members
+=== ATIB-Members ===
 Contributors: fn64live
 Donate link: 
 Tags: 
@@ -9,11 +9,11 @@ Stable tag:
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Membership functions for web site "Annika och Torkel i Berg.
+Membership functions for web site "Annika och Torkel i Berg".
 
 == Description ==
 
-Membership functions for web site "Annika och Torkel i Berg.
+Membership functions for web site "Annika och Torkel i Berg".
 Restricts access to members content.  
 - Adds filter that checks for protected member content: 
 	- singular of CPT 'slakt_handelser'
@@ -29,7 +29,7 @@ Restricts access to members content.
 Inspired by http://justintadlock.com/archives/2012/10/16/how-i-run-a-membership-site
 Requires plugin "Members"
 - Assumes that 'Custom Capability' 'visa_medlems_innehall' has been defined and added to roles that are allowed to access "Members content". 
-- New role 'betalande_medlem' is defined with capability 'visa_medlems_innehall' and 'read'.
+- Also assumes new role 'betalande_medlem' is defined with capability 'visa_medlems_innehall' and 'read'.
 
 
 
