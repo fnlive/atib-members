@@ -366,3 +366,5 @@ function person_quicktags() {
 }
 // Hook into the 'admin_print_footer_scripts' action
 add_action( 'admin_print_footer_scripts', 'person_quicktags' );
+
+//ToDo: Skapa knapp som ovan fast till TinyMCE
