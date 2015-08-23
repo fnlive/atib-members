@@ -10,6 +10,22 @@ License:     GPL2
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 */
 
+// Innehåller funktioner för medlemsinnehåll
+//
+// Begränsa åtkomst till medlemsinnehåll
+// Returnera sidan "ej_medlem_content.php" om användaren inte är behörig
+// till att "visa_medlems_innehall" och sidan som vill se är skyddad (listad nedan).
+// Skyddade sidor:
+// - "Single post" med CPT 'slakt_handelser'
+// - arkiv med CPT 'slakt_handelser'
+// - taxonomi-arkiv 'slakt-gren', 'handelse-typ' som hör till CPT 'slakt_handelser'
+// - sidan 'slakttrad'
+//
+// Kopierat efter:
+// http://justintadlock.com/archives/2012/10/16/how-i-run-a-membership-site
+// Kräver plugin Members
+// ToDo: funktion som kollar att Members är installerat.
+
 add_filter( 'template_include', 'atib_ej_medlem_template', 99 );
 
 function atib_ej_medlem_template( $template ) {
@@ -44,7 +60,7 @@ function atib_search_filter( $query ) {
 add_filter( 'pre_get_posts', 'atib_search_filter' );
 
 
-// Visa bara verktygsraden för adminstrator, 
+// Visa bara verktygsraden för adminstrator,
 // ej för andra inloggade användare.
 add_action( 'after_setup_theme', 'remove_admin_bar' );
 
@@ -77,7 +93,7 @@ function atib_medlem_widgets_init() {
 
 // Extra medlemsinformation i användarprofilen
 // Lägg till släkt-gren som metadata under user profle
-// 
+//
 add_action( 'show_user_profile', 'atib_show_extra_profile_fields' );
 add_action( 'edit_user_profile', 'atib_show_extra_profile_fields' );
 
@@ -89,7 +105,7 @@ function atib_show_extra_profile_fields( $user ) { ?>
 		<tr>
 			<th><label for="slaktgren">Släktgren</label></th>
 			<td>
-			<?php 
+			<?php
             //get dropdown saved value
             $selected = get_the_author_meta( 'slaktgren', $user->ID );
             ?>
@@ -107,7 +123,7 @@ function atib_show_extra_profile_fields( $user ) { ?>
 			</td>
 		</tr>
 	</table>
-	<?php 
+	<?php
 }
 
 add_action( 'personal_options_update', 'atib_save_extra_profile_fields' );
@@ -133,7 +149,7 @@ function atib_save_extra_profile_fields( $user_id ) {
 * Skapa template för arkiv och single (template-filer i themes-folder)
 * ((http://premium.wpmudev.org/blog/create-wordpress-custom-post-types/))
 * http://www.wpbeginner.com/wp-tutorials/how-to-create-custom-post-types-in-wordpress/
-* 
+*
 * CPT släkthändelser: 'slakt_handelser'
 *
 * CPT-taxonomies: 'handelse-typ': Födda, In Memoriam, Vigda, ...
@@ -144,7 +160,7 @@ function atib_save_extra_profile_fields( $user_id ) {
 * single-slakt_handelser.php	- visa enskild/"Single" CPT
 * archive-slakt_handelser.php	- visa arkiv med alla CPT'er
 * taxonomy-handelse-typ.php	 	- visa arkiv med alla CPT'er med Händelsetyp x
-* taxonomy-slakt-gren.php	 	- visa arkiv med alla CPT'er med släktgren x 
+* taxonomy-slakt-gren.php	 	- visa arkiv med alla CPT'er med släktgren x
 *
 */
 
@@ -203,24 +219,24 @@ add_action( 'init', 'atib_slakt_handelse_cpt', 0 );
 
 // Run on activation of plugin
 function atib_members_install() {
- 
+
     // Trigger our function that registers the custom post type
     atib_slakt_handelse_cpt();
- 
+
     // Clear the permalinks after the post type has been registered
     flush_rewrite_rules();
- 
+
 }
 register_activation_hook( __FILE__, 'atib_members_install' );
 
 // Run on deactivation of plugin
 function atib_members_deactivation() {
- 
+
     // Our post type will be automatically removed, so no need to unregister it
- 
+
     // Clear the permalinks to remove our post type's rules
     flush_rewrite_rules();
- 
+
 }
 register_deactivation_hook( __FILE__, 'atib_members_deactivation' );
 
@@ -312,9 +328,9 @@ add_action( 'init', 'atib_slakt_handelse_taxonomy', 0 );
 
 
 
-// Funktioner nedanför används till släktträdet. 
+// Funktioner nedanför används till släktträdet.
 //
-// Add Shortcode. Shortcode skapar länk till personakt i släktträdet. 
+// Add Shortcode. Shortcode skapar länk till personakt i släktträdet.
 // Kan användas i inlägg och på sidor genom att sätta kort-koden runt ett namn.
 // Ange namn på personaktsfil som parameter p. Namn finns i filen gendex.txt
 // Användning: [atib_person p=p2592929b]Anna Moberg[/atib_person]
@@ -336,7 +352,7 @@ return '<a title="Personakt visas i nytt fönster" href="'.$url.'/slakttrad/?p='
 }
 add_shortcode( 'atib_person', 'atib_slakttrad_person' );
 
-// Add Quicktag (knapp) till text-editorn 
+// Add Quicktag (knapp) till text-editorn
 // skapar en shortcode med personakt i släktträdet. Se shortcode nedan.
 // Markera en text i texteditorn och tryck sedan på knappen "person"
 function person_quicktags() {
@@ -350,4 +366,3 @@ function person_quicktags() {
 }
 // Hook into the 'admin_print_footer_scripts' action
 add_action( 'admin_print_footer_scripts', 'person_quicktags' );
-
